@@ -19,82 +19,105 @@ function switchTab(tab) {
     }
 }
 
-// Auth Logic (Local Storage)
-const USERS_KEY = 'pft_users';
-const CURRENT_USER_KEY = 'pft_current_user';
+// Auth Logic
+document.addEventListener('DOMContentLoaded', () => {
 
-function getUsers() {
-    return JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
-}
+    // Check if user is already logged in
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            window.location.href = 'app.html';
+        }
+    });
 
-function saveUser(user) {
-    const users = getUsers();
-    users.push(user);
-    localStorage.setItem(USERS_KEY, JSON.stringify(users));
-}
+    // Sign Up Logic
+    const signupForm = document.getElementById('form-signup');
+    if (signupForm) {
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
 
-function findUser(email) {
-    const users = getUsers();
-    return users.find(u => u.email === email);
-}
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
 
-// Registration
-formSignup.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    const name = document.getElementById('signup-name').value;
-    const email = document.getElementById('signup-email').value;
-    const password = document.getElementById('signup-password').value;
+            if (password.length < 8) {
+                alert('Password must be at least 8 characters long');
+                return;
+            }
 
-    if (findUser(email)) {
-        alert('User already exists with this email.');
-        return;
+            auth.createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+
+                    // Update profile with name
+                    return user.updateProfile({
+                        displayName: name
+                    }).then(() => {
+                        // Create user document in Firestore
+                        return db.collection('users').doc(user.uid).set({
+                            name: name,
+                            email: email,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                            currency: 'USD', // Default currency
+                            settings: {
+                                notifications: true
+                            }
+                        });
+                    });
+                })
+                .then(() => {
+                    alert('Account created successfully!');
+                    window.location.href = 'app.html';
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    alert(errorMessage);
+                });
+        });
     }
 
-    if (password.length < 8) {
-        alert('Password must be at least 8 characters long.');
-        return;
+    // Sign In Logic
+    const signinForm = document.getElementById('form-signin');
+    if (signinForm) {
+        signinForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('signin-email').value;
+            const password = document.getElementById('signin-password').value;
+
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // Signed in
+                    window.location.href = 'app.html';
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    alert(errorMessage);
+                });
+        });
     }
 
-    const newUser = {
-        id: Date.now().toString(),
-        name,
-        email,
-        password // In a real app, hash this!
-    };
+    // Google Auth
+    const googleBtn = document.querySelector('.btn-google');
+    if (googleBtn) {
+        googleBtn.addEventListener('click', () => {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider)
+                .then((result) => {
+                    window.location.href = 'app.html';
+                }).catch((error) => {
+                    console.error(error);
+                    alert('Google Sign In failed: ' + error.message);
+                });
+        });
+    }
 
-    saveUser(newUser);
-    alert('Account created successfully! Please sign in.');
-    switchTab('signin');
-    formSignup.reset();
-});
-
-// Login
-formSignin.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    const email = document.getElementById('signin-email').value;
-    const password = document.getElementById('signin-password').value;
-
-    const user = findUser(email);
-
-    if (user && user.password === password) {
-        localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
-        alert(`Welcome back, ${user.name}!`);
-        // Redirect or update UI for logged in state
-        // For now, just log to console
-        console.log('Logged in user:', user);
+    // Initialize Tab
+    if (window.location.hash === '#signup') {
+        switchTab('signup');
     } else {
-        alert('Invalid email or password.');
+        switchTab('signin');
     }
 });
-
-// Initialize
-// Check if we should show one tab or another based on URL hash or default
-if (window.location.hash === '#signup') {
-    switchTab('signup');
-} else {
-    switchTab('signin'); // Default to sign in as per Image 2, or Image 1 shows Create Account active.
-    // Image 1 shows Create Account active. Image 2 shows Sign In active.
-    // I'll default to Sign In, but the user can switch.
-}
