@@ -3,7 +3,7 @@ const firebaseConfig = {
     apiKey: "AIzaSyD8whTvpEjV-howtTzAQl3CVi6Eyly8gGY",
     authDomain: "personal-finance-tracker-9be56.firebaseapp.com",
     projectId: "personal-finance-tracker-9be56",
-    storageBucket: "personal-finance-tracker-9be56.firebasestorage.app",
+    storageBucket: "personal-finance-tracker-9be56.firebasestorage.appspot.com",
     messagingSenderId: "745831570434",
     appId: "1:745831570434:web:0127bf621a12bba6d31b1b",
     measurementId: "G-DVE85D7SKK"
