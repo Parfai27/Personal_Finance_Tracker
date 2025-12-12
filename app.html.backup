@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Personal Finance Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-text">
+                    <span class="logo-main">Finance</span>
+                    <span class="logo-sub">Personal Tracker</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-view="dashboard">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    Dashboard
+                </a>
+                <a href="#" class="nav-item" data-view="transactions">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                    Transactions
+                </a>
+                <a href="#" class="nav-item" data-view="analytics">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                    </svg>
+                    Analytics
+                </a>
+                <a href="#" class="nav-item" data-view="settings">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path
+                            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                        </path>
+                    </svg>
+                    Settings
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button id="btn-signout" class="signout-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    Sign Out
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard View -->
+            <div id="view-dashboard" class="view-section active">
+                <header class="view-header">
+                    <div class="header-text">
+                        <h1 id="welcome-msg">Welcome back!</h1>
+                        <p class="subtitle">Here's your financial overview for this month</p>
+                    </div>
+                </header>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span>Total Balance</span>
+                            <div class="icon-box success-light">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10B981"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="stat-value">$8,234.56</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span>This Month Income</span>
+                            <div class="icon-box success-light">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10B981"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                                    <polyline points="17 6 23 6 23 12"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="stat-value">$6,200.00</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span>This Month Expense</span>
+                            <div class="icon-box danger-light">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#EF4444"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                    <polyline points="17 18 23 18 23 12"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="stat-value">$1,250.50</div>
+                    </div>
+                </div>
+
+                <div class="chart-section">
+                    <h3>Balance Trend</h3>
+                    <div class="chart-container" id="balance-chart">
+                        <!-- Chart will be rendered here -->
+                    </div>
+                </div>
+
+                <div class="transactions-section">
+                    <div class="section-header">
+                        <h3>Recent Transactions</h3>
+                        <button class="btn-primary-sm">+ Add Transaction</button>
+                    </div>
+                    <div class="transactions-list" id="recent-transactions">
+                        <!-- Transactions will be rendered here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics View -->
+            <div id="view-analytics" class="view-section">
+                <header class="view-header">
+                    <div class="header-text">
+                        <h1>Analytics</h1>
+                        <p class="subtitle">Visualize your spending patterns and financial insights</p>
+                    </div>
+                </header>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span>Top Category</span>
+                            <div class="icon-box success-light">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10B981"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                                    <polyline points="17 6 23 6 23 12"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="stat-value">Food</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span>Total Income (YTD)</span>
+                            <div class="icon-box success-light">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10B981"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                                    <polyline points="17 6 23 6 23 12"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="stat-value">$20,940.00</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span>Total Expense (YTD)</span>
+                            <div class="icon-box danger-light">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#EF4444"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                    <polyline points="17 18 23 18 23 12"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="stat-value">$10,606.00</div>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3>Income vs Expense</h3>
+                        <div class="chart-container" id="income-expense-chart"></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Spending by Category</h3>
+                        <div class="chart-container" id="category-chart"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transactions View -->
+            <div id="view-transactions" class="view-section">
+                <header class="view-header">
+                    <div class="header-text">
+                        <h1>Transactions</h1>
+                        <p class="subtitle">View and manage your financial transactions</p>
+                    </div>
+                    <button class="btn-primary" onclick="openModal('modal-add-transaction')">+ Add Transaction</button>
+                </header>
+
+                <div class="transactions-container">
+                    <div class="filters-bar">
+                        <div class="search-box">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                            <input type="text" placeholder="Search transactions..." class="search-input">
+                        </div>
+                        <div class="filter-group">
+                            <select class="filter-select">
+                                <option>All Categories</option>
+                                <option>Food</option>
+                                <option>Transport</option>
+                                <option>Entertainment</option>
+                                <option>Salary</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="transactions-list-full" id="full-transactions-list">
+                        <h3>Sign Out?</h3>
+                        <p>Are you sure you want to sign out? You'll need to sign in again to access your account.</p>
+                        <div class="modal-actions">
+                            <button class="btn-outline" onclick="closeModal('modal-signout')">Cancel</button>
+                            <button class="btn-danger" onclick="confirmSignOut()">Sign Out</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add Transaction Modal -->
+                <div id="modal-add-transaction" class="modal-overlay hidden">
+                    <div class="modal-content modal-lg">
+                        <div class="modal-header">
+                            <h3>Add Transaction</h3>
+                            <button class="close-btn" onclick="closeModal('modal-add-transaction')">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="modal-subtitle">Record a new income or expense transaction</p>
+
+                        <form id="form-add-transaction">
+                            <div class="transaction-type-toggle">
+                                <input type="radio" name="type" id="type-expense" value="expense" checked>
+                                <label for="type-expense" class="type-btn">Expense</label>
+
+                                <input type="radio" name="type" id="type-income" value="income">
+                                <label for="type-income" class="type-btn">Income</label>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Amount *</label>
+                                <div class="input-wrapper">
+                                    <span class="currency-symbol">$</span>
+                                    <input type="number" id="t-amount" placeholder="0.00" step="0.01" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Category *</label>
+                                <select id="t-category" class="form-select" required>
+                                    <option value="Food">Food</option>
+                                    <option value="Transportation">Transportation</option>
+                                    <option value="Entertainment">Entertainment</option>
+                                    <option value="Utilities">Utilities</option>
+                                    <option value="Salary">Salary</option>
+                                    <option value="Freelance">Freelance</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Date *</label>
+                                <input type="date" id="t-date" class="form-input" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Description *</label>
+                                <input type="text" id="t-description"
+                                    placeholder="e.g., Grocery shopping, Monthly rent..." class="form-input" required>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn-outline"
+                                    onclick="closeModal('modal-add-transaction')">Cancel</button>
+                                <button type="submit" class="btn-primary">Add Transaction</button>
+                                </svg>
+                            </div>
+                    </div>
+                    <div class="stat-value">$10,606.00</div>
+                </div>
+            </div>
+
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h3>Income vs Expense</h3>
+                    <div class="chart-container" id="income-expense-chart"></div>
+                </div>
+                <div class="chart-card">
+                    <h3>Spending by Category</h3>
+                    <div class="chart-container" id="category-chart"></div>
+                </div>
+            </div>
+    </div>
+
+    <!-- Transactions View -->
+    <div id="view-transactions" class="view-section">
+        <header class="view-header">
+            <div class="header-text">
+                <h1>Transactions</h1>
+                <p class="subtitle">View and manage your financial transactions</p>
+            </div>
+            <button class="btn-primary" onclick="openModal('modal-add-transaction')">+ Add Transaction</button>
+        </header>
+
+        <div class="transactions-container">
+            <div class="filters-bar">
+                <div class="search-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" placeholder="Search transactions..." class="search-input">
+                </div>
+                <div class="filter-group">
+                    <select class="filter-select">
+                        <option>All Categories</option>
+                        <option>Food</option>
+                        <option>Transport</option>
+                        <option>Entertainment</option>
+                        <option>Salary</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="transactions-list-full" id="full-transactions-list">
+                <!-- Transactions rendered here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings View -->
+    <div id="view-settings" class="view-section">
+        <header class="view-header">
+            <div class="header-text">
+                <h1>Settings</h1>
+                <p class="subtitle">Manage your account preferences and settings</p>
+            </div>
+        </header>
+
+        <div class="settings-container">
+            <!-- Profile Settings -->
+            <div class="settings-card">
+                <h3>Profile Settings</h3>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="settings-name" class="form-input bg-light" readonly>
+                    <div class="form-group">
+                        <label>Currency</label>
+                        <select class="form-select">
+                            <option>US Dollar (USD)</option>
+                            <option>Euro (EUR)</option>
+                            <option>British Pound (GBP)</option>
+                        </select>
+                        <p class="help-text">This will be used to format all currency values</p>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <div class="setting-title">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                                </svg>
+                                Email Notifications
+                            </div>
+                            <p class="help-text">Receive updates about your finances</p>
+                        </div>
+                        <input type="checkbox" class="toggle-checkbox" checked>
+                    </div>
+                </div>
+
+                <!-- Data Management -->
+                <div class="settings-card">
+                    <h3>Data Management</h3>
+                    <button class="btn-primary btn-block">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Export Transactions as CSV
+                    </button>
+                    <p class="help-text mt-2">Download all your transaction data in CSV format for backup or
+                        analysis.</p>
+                    <h3 class="text-danger">Danger Zone</h3>
+                    <p class="text-danger-light mb-4">These actions cannot be undone. Please proceed with
+                        caution.
+                    </p>
+                    <button class="btn-danger btn-block">Delete Account</button>
+                </div>
+            </div>
+        </div>
+        </main>
+    </div>
+
+    <!-- Sign Out Modal -->
+    <div id="modal-signout" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3>Sign Out?</h3>
+            <p>Are you sure you want to sign out? You'll need to sign in again to access your account.</p>
+            <div class="modal-actions">
+                <button class="btn-outline" onclick="closeModal('modal-signout')">Cancel</button>
+                <button class="btn-danger" onclick="confirmSignOut()">Sign Out</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Transaction Modal -->
+    <div id="modal-add-transaction" class="modal-overlay hidden">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h3>Add Transaction</h3>
+                <button class="close-btn" onclick="closeModal('modal-add-transaction')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <p class="modal-subtitle">Record a new income or expense transaction</p>
+
+            <form id="form-add-transaction">
+                <div class="transaction-type-toggle">
+                    <input type="radio" name="type" id="type-expense" value="expense" checked>
+                    <label for="type-expense" class="type-btn">Expense</label>
+
+                    <input type="radio" name="type" id="type-income" value="income">
+                    <label for="type-income" class="type-btn">Income</label>
+                </div>
+
+                <div class="form-group">
+                    <label>Amount *</label>
+                    <div class="input-wrapper">
+                        <span class="currency-symbol">$</span>
+                        <input type="number" id="t-amount" placeholder="0.00" step="0.01" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Category *</label>
+                    <select id="t-category" class="form-select" required>
+                        <option value="Food">Food</option>
+                        <option value="Transportation">Transportation</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Utilities">Utilities</option>
+                        <option value="Salary">Salary</option>
+                        <option value="Freelance">Freelance</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Date *</label>
+                    <input type="date" id="t-date" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Description *</label>
+                    <input type="text" id="t-description" placeholder="e.g., Grocery shopping, Monthly rent..."
+                        class="form-input" required>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn-outline"
+                        onclick="closeModal('modal-add-transaction')">Cancel</button>
+                    <button type="submit" class="btn-primary">Add Transaction</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs (Compat) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+    <!-- Firebase Config -->
+    <script src="firebase-config.js"></script>
+
+    <script src="js/storage.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
